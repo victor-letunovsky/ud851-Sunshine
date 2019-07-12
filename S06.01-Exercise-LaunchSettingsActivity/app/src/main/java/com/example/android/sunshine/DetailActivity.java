@@ -10,17 +10,16 @@ import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+    private static final String FORECAST_SHARE_HASH_TAG = " #SunshineApp";
 
     private String mForecast;
-    private TextView mWeatherDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        mWeatherDisplay = (TextView) findViewById(R.id.tv_display_weather);
+        TextView mWeatherDisplay = findViewById(R.id.tv_display_weather);
 
         Intent intentThatStartedThisActivity = getIntent();
 
@@ -40,11 +39,10 @@ public class DetailActivity extends AppCompatActivity {
      * @return The Intent to use to start our share.
      */
     private Intent createShareForecastIntent() {
-        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+        return ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
-                .setText(mForecast + FORECAST_SHARE_HASHTAG)
+                .setText(mForecast + FORECAST_SHARE_HASH_TAG)
                 .getIntent();
-        return shareIntent;
     }
 
     @Override
@@ -55,5 +53,15 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-    // TODO (7) Launch SettingsActivity when the Settings option is clicked
+    // COMPLETED (7) Launch SettingsActivity when the Settings option is clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
